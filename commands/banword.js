@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require('@discordjs/builders');
 const { AUTHORIZED_USERS } = require('../utils/config');
 const dbManager = require('../database/dbManager');
+const colors = require('../utils/colors');
 
 module.exports = {
     data: {
@@ -45,7 +46,7 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setTitle("Word Ban Information")
                 .setDescription(`The word "${word}" has been banned for ${user.username}.`)
-                .setColor(0xFF5733);
+                .setColor(colors.PEACH);
 
             interaction.reply({ embeds: [embed] });
         });

@@ -1,5 +1,6 @@
 const { getUserPermissions, isAuthorized, hasDiscordAdmin } = require('../utils/permissions');
 const { EmbedBuilder } = require('discord.js');
+const colors = require('../utils/colors');
 
 module.exports = {
     data: {
@@ -28,7 +29,7 @@ module.exports = {
         try {
             const permissions = await getUserPermissions(targetUserId, guildId);
             const embed = new EmbedBuilder()
-                .setColor(0x00AE86)
+                .setColor(colors.CREAM)
                 .setTitle(`Permissions for ${targetUsername}`)
                 .setTimestamp();
 

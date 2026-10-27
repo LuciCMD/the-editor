@@ -2,8 +2,7 @@ const { ChannelSelectMenuBuilder, ChannelType } = require('discord.js');
 const v2 = require('../utils/componentsV2');
 const watch = require('../utils/watch');
 
-const OK_COLOR = 0x00FF00;
-const ERROR_COLOR = 0xFF0000;
+const { MINT: OK_COLOR, PINK: ERROR_COLOR } = require('../utils/colors');
 
 module.exports = {
     data: {

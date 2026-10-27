@@ -1,8 +1,7 @@
 const v2 = require('../utils/componentsV2');
 const watch = require('../utils/watch');
 
-const INFO_COLOR = 0x3498DB;
-const ERROR_COLOR = 0xFF0000;
+const { AQUA: INFO_COLOR, PINK: ERROR_COLOR } = require('../utils/colors');
 const MAX_SHOWN = 12;
 
 module.exports = {

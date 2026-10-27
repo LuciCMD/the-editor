@@ -1,6 +1,6 @@
 const v2 = require('../../utils/componentsV2');
 
-const INFO_COLOR = 0x1DB954;
+const { AQUA: INFO_COLOR } = require('../../utils/colors');
 const MAX_QUEUE_LIST = 20;
 
 module.exports = {

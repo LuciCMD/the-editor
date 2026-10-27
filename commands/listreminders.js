@@ -1,8 +1,7 @@
 const v2 = require('../utils/componentsV2');
 const reminders = require('../utils/reminders');
 
-const INFO_COLOR = 0x00FF00;
-const ERROR_COLOR = 0xFF0000;
+const { AQUA: INFO_COLOR, PINK: ERROR_COLOR } = require('../utils/colors');
 const MAX_SHOWN = 10;
 
 function reminderText(reminder) {

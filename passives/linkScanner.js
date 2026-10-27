@@ -2,6 +2,7 @@ const { EmbedBuilder } = require('@discordjs/builders');
 const axios = require('axios');
 const config = require('../utils/config');
 const dbManager = require('../database/dbManager');
+const colors = require('../utils/colors');
 
 async function getIgnoredDomains() {
   const db = dbManager.getDatabase('virustotal_settings_db');
@@ -64,7 +65,7 @@ module.exports = {
     const apiKey = config.virusTotalApiKey;
     const reportEmbed = new EmbedBuilder()
       .setTitle('VirusTotal Scan Results')
-      .setColor(0x3498db);
+      .setColor(colors.AQUA);
 
     let hasUnsafeUrls = false;
 

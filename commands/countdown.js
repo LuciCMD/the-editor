@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require('@discordjs/builders');
 const { ChannelType } = require('discord-api-types/v10');
 const { AUTHORIZED_USERS } = require('../utils/config');
+const colors = require('../utils/colors');
 
 const activeCountdowns = new Map();
 
@@ -41,7 +42,7 @@ module.exports = {
       .setTitle("Countdown Timer")
       .setDescription(`Countdown to ${endTimeString} (UTC)`)
       .addFields({ name: "Time Left", value: "Calculating..." })
-      .setColor(0xFF5733);
+      .setColor(colors.PEACH);
 
     let message;
 

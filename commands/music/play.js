@@ -1,12 +1,7 @@
 const { MessageFlags } = require('discord.js');
 const v2 = require('../../utils/componentsV2');
 
-const PLAY_COLOR = 0x1DB954;
-const ERROR_COLOR = 0xFF0000;
-
-function isUrl(value) {
-    return /^https?:\/\//i.test(value.trim());
-}
+const { AQUA: PLAY_COLOR, PINK: ERROR_COLOR } = require('../../utils/colors');
 
 module.exports = {
     data: {
@@ -41,9 +36,8 @@ module.exports = {
 
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
-        // Plain text is treated as a YouTube search; URLs are resolved directly
-        // (Spotify links are handled by the Spotify plugin).
-        const query = isUrl(song) ? song : `ytsearch1:${song}`;
+        // Plain text goes to DisTube as is, it searches YouTube through the yt-dlp plugin
+        const query = song.trim();
 
         try {
             await client.distube.play(voiceChannel, query, {

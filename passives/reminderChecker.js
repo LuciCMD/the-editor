@@ -3,27 +3,40 @@ const { EmbedBuilder } = require('@discordjs/builders');
 const fs = require('fs');
 const dbManager = require('../database/dbManager');
 const { addCalendarInZone } = require('../utils/timezone');
+const colors = require('../utils/colors');
 
-// Check for due reminders every minute.
-const CHECK_INTERVAL = 60 * 1000; // 1 minute in milliseconds
+// A 60 s poll fired up to a minute late, the query is one SELECT on a small table so 5 s is cheap
+const CHECK_INTERVAL_MS = 5 * 1000;
 
-// How late a recurring reminder may be and still be sent. Within this window a
-// reminder counts as "on time" (e.g. caught on the next 60s tick, or after a
-// quick restart). Beyond it, the occurrence is treated as missed-during-downtime
-// and skipped (the user chose: skip to the next future occurrence).
+// How late a recurring reminder may be and still count as on time, like after a quick restart
+// Beyond it the occurrence was missed during downtime and is skipped, the author's choice
 const SEND_GRACE_SECONDS = 5 * 60;
 
 // Safety cap for the next-trigger advance loop (Power of Ten rule 2). One tick of
 // the smallest practical interval (1 minute) for ~2 years of downtime.
 const MAX_ADVANCE_ITERATIONS = 1100000;
 
+// A send can outlast one tick, so a reminder still being sent is skipped instead of sent twice
+// Tracked per reminder so one stuck channel never holds up the others
+const inFlight = new Set();
+
+// A reminder that errors stays due, without a pause it would be re-sent every tick
+const ERROR_RETRY_MS = 10 * 60 * 1000;
+const retryAfter = new Map();
+
+async function tick(client) {
+    try {
+        await checkReminders(client);
+    } catch (err) {
+        console.error('Reminder check failed:', err);
+    }
+}
+
 module.exports = {
     name: 'ready',
     execute: async (client) => {
         console.log('Starting reminder checker...');
-        setInterval(() => {
-            checkReminders(client).catch(err => console.error('Reminder check failed:', err));
-        }, CHECK_INTERVAL);
+        setInterval(() => tick(client), CHECK_INTERVAL_MS);
     }
 };
 
@@ -48,13 +61,23 @@ async function checkReminders(client) {
         });
     });
 
-    for (const reminder of reminders) {
+    // Marked before any await so an overlapping tick's query result already sees them
+    const due = reminders.filter(r => !inFlight.has(r.id) && !((retryAfter.get(r.id) || 0) > Date.now()));
+    for (const reminder of due) {
+        inFlight.add(reminder.id);
+        retryAfter.delete(reminder.id);
+    }
+
+    await Promise.all(due.map(async (reminder) => {
         try {
             await processReminder(client, db, reminder, now);
         } catch (error) {
-            console.error(`Error processing reminder ${reminder.id}:`, error);
+            retryAfter.set(reminder.id, Date.now() + ERROR_RETRY_MS);
+            console.error(`Error processing reminder ${reminder.id}, retrying in ${ERROR_RETRY_MS / 60000} min:`, error);
+        } finally {
+            inFlight.delete(reminder.id);
         }
-    }
+    }));
 }
 
 async function processReminder(client, db, reminder, now) {
@@ -117,7 +140,7 @@ async function sendReminder(client, channelId, userIds, reminder) {
     const embed = new EmbedBuilder()
         .setTitle(`Reminder: ${reminder.title}`)
         .setDescription(reminder.description || '​')
-        .setColor(0xFF9900)
+        .setColor(colors.CREAM)
         .setThumbnail('attachment://reminder.png')
         .setTimestamp();
 

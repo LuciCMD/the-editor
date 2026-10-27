@@ -1,8 +1,7 @@
 const v2 = require('../utils/componentsV2');
 const polls = require('../utils/polls');
 
-const POLL_COLOR = 0x3498DB;
-const ERROR_COLOR = 0xFF0000;
+const { AQUA: POLL_COLOR, PINK: ERROR_COLOR } = require('../utils/colors');
 const NUMBER_EMOJI = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
 const BAR_SEGMENTS = 12;
 const MAX_LABEL = 30;

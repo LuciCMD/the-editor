@@ -5,8 +5,7 @@ const v2 = require('../utils/componentsV2');
 const reminders = require('../utils/reminders');
 const reminderCommand = require('../commands/reminder');
 
-const OK_COLOR = 0x00FF00;
-const ERROR_COLOR = 0xFF0000;
+const { MINT: OK_COLOR, PINK: ERROR_COLOR } = require('../utils/colors');
 
 async function handleCreateModal(interaction) {
     const title = interaction.fields.getTextInputValue('title');

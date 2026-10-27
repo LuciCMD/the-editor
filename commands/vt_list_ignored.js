@@ -1,5 +1,6 @@
 const dbManager = require('../database/dbManager');
 const { EmbedBuilder } = require('discord.js');
+const colors = require('../utils/colors');
 
 module.exports = {
     data: {
@@ -33,7 +34,7 @@ module.exports = {
             }
 
             const embed = new EmbedBuilder()
-                .setColor(0x00AE86)
+                .setColor(colors.AQUA)
                 .setTitle('VirusTotal Ignored Domains')
                 .setDescription(`Total domains: ${domains.length}`)
                 .setTimestamp();

@@ -1,7 +1,7 @@
 const v2 = require('../../utils/componentsV2');
+const musicEvents = require('../../passives/musicEvents');
 
-const OK_COLOR = 0x1DB954;
-const ERROR_COLOR = 0xFF0000;
+const { AQUA: OK_COLOR, PINK: ERROR_COLOR } = require('../../utils/colors');
 
 function panel(interaction, color, body) {
     return v2.reply(interaction, {
@@ -24,7 +24,7 @@ module.exports = {
 
         try {
             if (queue.songs.length > 1) {
-                await queue.skip();
+                await musicEvents.skipSong(queue);
                 return panel(interaction, OK_COLOR, 'Skipped to the next song. ⏭️');
             }
             queue.stop();

@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require('@discordjs/builders');
 const dbManager = require('../database/dbManager');
 const { AUTHORIZED_USERS } = require('../utils/config');
+const colors = require('../utils/colors');
 
 // Helper function to parse the duration
 function parseDuration(durationStr) {
@@ -80,7 +81,7 @@ module.exports = {
                 const embed = new EmbedBuilder()
                     .setTitle("Gag Information")
                     .setDescription(`${memberName} has been gagged`)
-                    .setColor(0xFF5733)
+                    .setColor(colors.PEACH)
                     .addFields(
                         { name: "🕰 Duration", value: duration, inline: true },
                         { name: "🚨 Reason", value: reason || "No reason provided", inline: true },

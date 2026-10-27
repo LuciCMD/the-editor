@@ -1,8 +1,7 @@
 const { getVoiceConnection } = require('@discordjs/voice');
 const v2 = require('../../utils/componentsV2');
 
-const OK_COLOR = 0x1DB954;
-const ERROR_COLOR = 0xFF0000;
+const { AQUA: OK_COLOR, PINK: ERROR_COLOR } = require('../../utils/colors');
 
 module.exports = {
     data: {

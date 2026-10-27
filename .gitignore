@@ -1,6 +1,8 @@
 node_modules/
 .env
 .env.*
+/env
+/env.test
 config.json
 database/sqlite/
 database/sqlite-test/

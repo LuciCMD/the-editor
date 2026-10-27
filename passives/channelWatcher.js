@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require('@discordjs/builders');
 const dbManager = require('../database/dbManager');
 const { watchRefusal } = require('../utils/watch');
+const colors = require('../utils/colors');
 
 module.exports = {
     name: 'messageCreate',
@@ -56,7 +57,7 @@ module.exports = {
                                 { name: "Channel", value: `#${message.channel.name}`, inline: true },
                                 { name: "Server", value: message.guild.name, inline: true }
                             )
-                            .setColor(message.author.bot ? 0x7289DA : 0x5865F2)
+                            .setColor(colors.AQUA)
                             .setTimestamp(message.createdTimestamp)
                             .setFooter({ text: `Message ID: ${message.id}` });
                         

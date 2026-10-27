@@ -2,8 +2,7 @@ const Genius = require('genius-lyrics');
 const config = require('../../utils/config');
 const v2 = require('../../utils/componentsV2');
 
-const INFO_COLOR = 0x9B59B6;
-const ERROR_COLOR = 0xFF0000;
+const { AQUA: INFO_COLOR, PINK: ERROR_COLOR } = require('../../utils/colors');
 const MAX_LYRICS_LENGTH = 3800; // keep within the V2 message text budget
 const MAX_ATTEMPTS = 2;
 

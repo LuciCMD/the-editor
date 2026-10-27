@@ -4,7 +4,7 @@ const v2 = require('../utils/componentsV2');
 const polls = require('../utils/polls');
 const pollCommand = require('../commands/poll');
 
-const ERROR_COLOR = 0xFF0000;
+const { PINK: ERROR_COLOR } = require('../utils/colors');
 
 module.exports = {
     id: 'poll',

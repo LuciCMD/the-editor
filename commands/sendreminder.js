@@ -2,8 +2,7 @@ const { AUTHORIZED_USERS } = require('../utils/config');
 const dbManager = require('../database/dbManager');
 const v2 = require('../utils/componentsV2');
 
-const OK_COLOR = 0x00FF00;
-const ERROR_COLOR = 0xFF0000;
+const { MINT: OK_COLOR, PINK: ERROR_COLOR } = require('../utils/colors');
 
 function panel(interaction, color, heading, body) {
     return v2.reply(interaction, { ephemeral: true, components: v2.infoPanel({ color, heading, body }) });
